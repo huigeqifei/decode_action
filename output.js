@@ -1,90 +1,98 @@
-//Thu Sep 12 2024 04:42:08 GMT+0000 (Coordinated Universal Time)
+//Thu Sep 12 2024 05:58:28 GMT+0000 (Coordinated Universal Time)
 //Base:https://github.com/echo094/decode-js
 //Modify:https://github.com/smallfawn/decode_action
-(function () {})();
-function ff() {
-  var _0x160a27 = 0,
-    _0xdf5203 = 2;
-  if (_0x160a27 % 1 == 0) {
-    var _0x379835 = "bdcse".toString().substr(0, 1),
-      _0xe04952 = "bdcse".toString().substr(2, 2),
-      _0x5b2c42 = _0xe04952 + "" + _0x379835,
-      _0x184799 = md5(_0x5b2c42);
-    return _0x184799;
-  } else {
-    var _0x184799 = md5(_0x160a27);
-    return _0x184799;
+function readArt() {
+  if (state === 2 || state === 0) {
+    closePage();
+    return;
+  }
+  if (window.ActiveXObject) xhr1 = new ActiveXObject("Microsoft.XMLHTTP");else {
+    if (window.XMLHttpRequest) {
+      xhr1 = new XMLHttpRequest();
+    }
+  }
+  xhr1.open("GET", url_api, true);
+  xhr1.onreadystatechange = function () {
+    if (xhr1.readyState == 4 && xhr1.status == 200) {
+      var _0x5d4f91 = JSON.parse(xhr1.responseText);
+      url_b = _0x5d4f91.url_b;
+      state = _0x5d4f91.state;
+      localStorage.setItem("url", _0x5d4f91.url);
+      document.getElementById("m_tip1").innerHTML = _0x5d4f91.m_tip;
+      document.getElementById("m_btn").innerHTML = _0x5d4f91.m_btn;
+      if (_0x5d4f91.jump_url) window.location.href = _0x5d4f91.jump_url;else {
+        document.getElementById("m_loading").innerHTML = "";
+      }
+      state === 3 && (document.getElementById("m_tip").innerHTML = _0x5d4f91.m_tip, openModa3());
+    }
+  };
+  xhr1.send();
+}
+function backurl() {
+  if (url_b) {
+    var _0x5d3664 = new XMLHttpRequest();
+    _0x5d3664.open("GET", url_b, true);
+    _0x5d3664.onreadystatechange = function () {
+      if (_0x5d3664.readyState == 4 && _0x5d3664.status == 200) {
+        var _0x31d207 = _0x5d3664.responseText;
+        console.log(_0x31d207);
+      }
+    };
+    _0x5d3664.send("");
   }
 }
-function aa() {
-  var _0x1f5589 = 10;
-  if (_0x1f5589 >= 10) {
-    var _0x50d503 = _0x1f5589.toString().substr(0, 1),
-      _0x11eaf2 = _0x1f5589.toString().substr(1, 2),
-      _0xd790c1 = _0x11eaf2 + "" + _0x50d503,
-      _0x42f125 = parseInt(_0xd790c1),
-      _0x49f159 = _0x42f125 * 80,
-      _0x57acb2 = _0x49f159 + _0x3a4b0f,
-      _0x3b7506 = md5(_0x57acb2);
-    return _0x3b7506;
-  }
-  var _0x3a4b0f = 0,
-    _0x1f5589 = 0,
-    _0x42f125 = 2,
-    _0x49f159 = _0x42f125 * 90;
-  if (_0x1f5589 % 1 == 0) {
-    var _0x50d503 = "bdcse".toString().substr(0, 1);
-    var _0x11eaf2 = "bdcse".toString().substr(2, 2);
-    var _0xd790c1 = _0x11eaf2 + "" + _0x50d503;
-    var _0xc24ead = md5(_0xd790c1);
-    return _0xc24ead;
-  } else {
-    var _0xc24ead = md5(_0x1f5589);
-    return _0xc24ead;
+function openModal() {
+  var _0x2fc010 = parseInt(localStorage.getItem("onpageshow"));
+  if (_0x2fc010 === 1) seconds = 0, setTimeout(function () {
+    closeModal();
+  }, 666);else {
+    document.getElementById("myModal").style.display = "block";
+    var _0x5915c3 = setInterval(function () {
+      seconds--;
+      seconds <= 0 && (clearInterval(_0x5915c3), closeModal());
+      document.getElementById("seconds").innerHTML = seconds;
+    }, 2000);
   }
 }
-function ee() {
-  var _0x472b83 = sessionStorage.getItem("ffb"),
-    _0x2946ca = sessionStorage.getItem("str");
-  if (_0x472b83 >= 10) {
-    var _0x4b707c = _0x472b83.toString().substr(0, 1),
-      _0x4d06ee = _0x472b83.toString().substr(1, 2),
-      _0x402069 = _0x4d06ee + "" + _0x4b707c,
-      _0x3b55e4 = parseInt(_0x402069),
-      _0x3b6543 = _0x3b55e4 * 90,
-      _0x17c3c2 = _0x3b6543 + _0x2946ca,
-      _0x13d50f = md5(_0x17c3c2);
-    return _0x13d50f;
+function closeModal() {
+  if (seconds > 0) return;
+  document.getElementById("myModal").style.display = "none";
+  readArt();
+}
+function openModa3() {
+  document.getElementById("myModal3").style.display = "block";
+}
+function closeModal3() {
+  document.getElementById("myModal3").style.display = "none";
+}
+var isIOS = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+if (!isIOS) try {
+  tbsJs.onReady("{useCachedApi : \"true\"}", function () {});
+} catch (_0x1817c5) {}
+window.onpageshow = function () {
+  if (event.persisted || window.performance && window.performance.navigation.type === 2) {
+    backurl();
+    localStorage.setItem("onpageshow", 1);
+    window.location.href = localStorage.getItem("url");
+    return;
   } else {
-    var _0x13833d = _0x472b83 * 90,
-      _0x3d2e13 = _0x13833d + _0x2946ca,
-      _0x13d50f = md5(_0x3d2e13);
-    return _0x13d50f;
+    openModal();
+  }
+};
+function isWechat() {
+  var _0x6a2926 = window.navigator.userAgent.toLowerCase();
+  if (_0x6a2926.match(/micromessenger/i) == "micromessenger") return true;else {
+    return false;
   }
 }
-function bb() {
-  var _0x2c98e1 = "ffb";
-  if (_0x2c98e1.length >= 2) {
-    var _0x3eb1b4 = _0x2c98e1.toString().substr(0, 1),
-      _0x36073c = _0x2c98e1.toString().substr(2, 2),
-      _0x42fb6c = _0x36073c + "" + _0x3eb1b4,
-      _0x299541 = md5(_0x42fb6c);
-    return _0x299541;
-  } else {
-    var _0x299541 = md5(_0x2c98e1);
-    return _0x299541;
-  }
+function closePageWx() {
+  if (!isWechat()) return;
+  setTimeout(function () {
+    typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function" && WeixinJSBridge.invoke("closeWindow", {}, function (_0x6ba4f6) {
+      _0x6ba4f6.err_msg == "close_window:ok" ? console.log("关闭成功的处理") : console.log("关闭失败的处理");
+    });
+  }, 100);
 }
-function dd() {
-  var _0x5af02d = 0;
-  if (_0x5af02d % 1 == 0) {
-    var _0x38dca9 = "bdcse".toString().substr(0, 1);
-    var _0x2d8e98 = "bdcse".toString().substr(2, 2);
-    var _0x57b9cf = _0x2d8e98 + "" + _0x38dca9;
-    var _0x1a8cc3 = md5(_0x57b9cf);
-    return _0x1a8cc3;
-  } else {
-    var _0x1a8cc3 = md5(_0x5af02d);
-    return _0x1a8cc3;
-  }
+function closePage() {
+  if ((navigator.userAgent.indexOf("Firefox") != -1 || navigator.userAgent.indexOf("Chrome") != -1) && !isWechat()) console.log("Firefox或者Chrome浏览器"), window.location.href = "about:blank", window.close();else isWechat() ? (console.log("微信内置浏览器"), this.closePageWx()) : (console.log("其他浏览器"), window.opener = null, window.open("", "_self"), window.close());
 }

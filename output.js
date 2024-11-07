@@ -1,12 +1,19 @@
-//Thu Nov 07 2024 17:59:35 GMT+0000 (Coordinated Universal Time)
+//Thu Nov 07 2024 18:04:05 GMT+0000 (Coordinated Universal Time)
 //Base:https://github.com/echo094/decode-js
 //Modify:https://github.com/smallfawn/decode_action
-function lj() {
-  var _0x4d4cf3 = sessionStorage.getItem(TOKEN),
-    _0x2768bf = sessionStorage.getItem(START_NUM),
-    _0x589515 = sessionStorage.getItem(STR),
-    _0x26d3d1 = ee();
-  _0x4d4cf3 = _0x4d4cf3 + "&startNumber=" + _0x2768bf + "&str=" + _0x589515 + "&keys=" + _0x26d3d1 + "&ds=";
-  var _0x16f5e9 = "/uaction/getArticleListkkk?token=" + _0x4d4cf3;
-  return _0x16f5e9;
+function getTask() {
+  var _0x4e0ef3 = lj();
+  $.ajax({
+    "type": "GET",
+    "url": originPath + _0x4e0ef3,
+    "timeout": 10000,
+    "success": function (_0x294caf) {
+      result(_0x294caf);
+    },
+    "error": function (_0x12f836, _0x3a1e50) {
+      titleText2.text("请求超时了！返回重试");
+      $("#myModal2").show();
+      timerTask2();
+    }
+  });
 }
